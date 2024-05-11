@@ -42,13 +42,21 @@ class Usuario extends Banco{
 public function save(){
 $result = false;
 $conexao = new Conexao();
-$query = "insert into usuario (id, login, senha, permissao) values (null, :login,:senha,:permissao)";
 if ($conn = $conexao->getConection()){
-    $stmt = $conn->prepare($query);
+    if ($this->id > 0){
+        $query = "UPDATE usuario set login = :login, senha = :senha, permissao = permissao where id = :id";
+        $stmt = $conn->prepare($query);
+        if ($stmt->execute(array(':login' => $this->login, ':senha'=> $this->senha, ':permissao'=> $this->permissao, ':id' => $this-> id))){
+            $result = $stmt->rowCount();
+        }
+    }else{$query = "INSERT into usuario (id, login, senha, permissao) values (null, :login,:senha,:permissao)";
+        $stmt = $conn->prepare($query);
+        if ($stmt->execute(array(':login' => $this->login, ':senha'=> $this->senha, ':permissao'=> $this->permissao))){
+            $result = $stmt->rowCount();
+        }
+    } 
     
-    if ($stmt->execute(array(':login' => $this->login, ':senha'=> $this->senha, ':permissao'=> $this->permissao))){
-        $result = $stmt->rowCount();
-    }
+   
 }
 return $result;
 
@@ -60,7 +68,17 @@ public function remove($id){
 }
 
 public function find($id){
-    
+    $conexao = new Conexao();
+$conn = $conexao->getConection();
+$query = "SELECT * from usuario where id = :id";
+$stmt = $conn->prepare($query);
+if ($stmt->execute(array(':id' => $id))){
+    if ($stmt->rowCount() > 0){
+}else{
+    $result = false;
+}
+}
+return $result;
 }
 
 public function count(){
