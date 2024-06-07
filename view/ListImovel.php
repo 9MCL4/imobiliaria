@@ -9,24 +9,28 @@
     <h1>Usuários</h1>
 <table>
     <tr>
-    <th>Login</th>
-    <th>Permissão</th>
-    <th><a href="">Novo</a></th>
+    <th>Descrição</th>
+    <th>Foto</th>
+    <th>Valor</th>
+    <th>Tipo</th>
+    <th><a href="index.php?page=imovel&action=cadastrar">Novo</a></th>
 </tr>
 <tbody>
 <?php
 require_once 'controller/ImovelController.php';
-$usuarios = call_user_func(array('ImovelController','listar'));
-if(isset($usuarios)){
-    foreach($usuarios as $usuario){
+$imoveis = call_user_func(array('ImovelController','listar'));
+if(isset($imoveis)){
+    foreach($imoveis as $imovel){
         ?>
         <tr>
-            <td><?php echo $usuario->getLogin(); ?> </td>
-            <td><?php echo $usuario->getPermissao(); ?></td>
-            <td>
-                <a href=""> Editar</a>
-                <a href=""> Excluir</a>
-            </td>
+                <td><?php echo $imovel->getDescricao(); ?></td>
+                <td><?php echo $imovel->getFoto(); ?></td>
+                <td><?php echo $imovel->getValor(); ?></td>
+                <td><?php echo $imovel->getTipo() == 'A' ? 'Apartamento' : 'Casa'; ?></td>
+                <td>
+                <a href="index.php?page=imovel&action=editar&id=<?php echo $imovel->getId(); ?>">Editar</a>
+                <a href="index.php?page=imovel&action=excluir&id=<?php echo $imovel->getId(); ?>">Excluir</a>
+        </td>
     </tr>
  <?php
 
@@ -34,7 +38,7 @@ if(isset($usuarios)){
 }else{
     ?>
     <tr>
-        <td colspan="3">Nenhum registro encontrado</td>
+        <td colspan="5">Nenhum registro encontrado</td>
 </tr>
 <?php
 }

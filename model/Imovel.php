@@ -6,9 +6,10 @@ require_once 'Conexao.php';
 
 class Imovel extends Banco{
     private $id;
-    private $login;
-    private $senha;
-    private $permissao;
+    private $descricao ;
+    private $foto;
+    private $valor;
+    private $tipo;
 
     public function getId(){
         return $this->id;
@@ -18,24 +19,30 @@ class Imovel extends Banco{
         return $this->id = $id;
     }
 
-    public function getlogin(){
-        return $this->login;
+    public function getDescricao(){
+        return $this->descricao;
     }
-    public function setlogin($login){
-        return $this->login = $login;
+    public function setDescricao($descricao){
+        return $this->descricao = $descricao;
     }
 
-    public function getsenha(){
-        return $this->senha;
+    public function getFoto(){
+        return $this->foto;
     }
-    public function setsenha($senha){
-        return $this->senha = $senha;
+    public function setFoto($foto){
+        return $this->foto = $foto;
     }
-    public function getpermissao(){
-        return $this->permissao;
+    public function getValor(){
+        return $this->valor;
     }
-    public function setpermissao($permissao){
-        return $this->permissao = $permissao;
+    public function setValor($valor){
+        return $this->valor = $valor;
+    }
+    public function getTipo(){
+        return $this->tipo;
+    }
+    public function setTipo($tipo){
+        return $this->tipo = $tipo;
     }
 
 
@@ -44,14 +51,14 @@ $result = false;
 $conexao = new Conexao();
 if ($conn = $conexao->getConection()){
     if ($this->id > 0){
-        $query = "UPDATE imovel set login = :login, senha = :senha, permissao = permissao where id = :id";
+        $query = "UPDATE imovel set descricao = :descricao, foto = :foto, valor = :valor, tipo = :tipo where id = :id";
         $stmt = $conn->prepare($query);
-        if ($stmt->execute(array(':login' => $this->login, ':senha'=> $this->senha, ':permissao'=> $this->permissao, ':id' => $this-> id))){
+        if ($stmt->execute(array(':descricao' => $this->descricao, ':foto'=> $this->foto, ':valor'=> $this->valor, ':tipo' => $this->tipo, ':id' => $this-> id))){
             $result = $stmt->rowCount();
         }
-    }else{$query = "INSERT into imovel (id, login, senha, permissao) values (null, :login,:senha,:permissao)";
+    }else{$query = "INSERT into imovel (id, descricao, foto, valor, tipo) values (null, :descricao,:foto,:valor, :tipo)";
         $stmt = $conn->prepare($query);
-        if ($stmt->execute(array(':login' => $this->login, ':senha'=> $this->senha, ':permissao'=> $this->permissao))){
+        if ($stmt->execute(array(':descricao' => $this->descricao, ':foto'=> $this->foto, ':valor'=> $this->valor, ':tipo' => $this->tipo))){
             $result = $stmt->rowCount();
         }
     } 

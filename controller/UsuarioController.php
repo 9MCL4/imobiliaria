@@ -31,3 +31,4 @@ class UsuarioController{
         $usuario = $usuario->remove($id);
     }
 }
+?>
